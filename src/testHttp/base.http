@@ -1,2 +1,7 @@
-GET http://localhost:3000/
+
+GET http://localhost:3000/users/0
 Content-Type: application/json
+
+
+#GET http://localhost:3000/users/search?name=ivan&age=23
+#Content-Type: application/json
