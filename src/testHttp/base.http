@@ -1,7 +1,16 @@
 
-GET http://localhost:3000/users/0
-Content-Type: application/json
+#GET http://localhost:3000/users/0
+#Content-Type: application/json
 
 
 #GET http://localhost:3000/users/search?name=ivan&age=23
 #Content-Type: application/json
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Ivan 2",
+  "age": 34,
+  "email": "ivan@example.com"
+}

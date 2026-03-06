@@ -1,4 +1,13 @@
-import {Controller, Get, NotFoundException, Param, ParseIntPipe, Query} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query
+} from '@nestjs/common';
 
 
 // порядок следования важен - видимость и реакция url на выдачу
@@ -30,6 +39,18 @@ export class UsersController {
     }
 
     return `User with ID : ${id}`
+  }
+
+  @Post()
+  create(@Body() body: any){
+    if (!body.name) {
+      throw new NotFoundException('User no valid: no name field')
+    }
+
+    return {
+      message: 'Пользователь создан',
+      data: body
+    }
   }
 
 }
