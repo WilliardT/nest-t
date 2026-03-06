@@ -1,11 +1,11 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   NotFoundException,
   Param,
   ParseIntPipe,
-  Post,
+  Post, Put,
   Query
 } from '@nestjs/common';
 
@@ -41,6 +41,7 @@ export class UsersController {
     return `User with ID : ${id}`
   }
 
+
   @Post()
   create(@Body() body: any){
     if (!body.name) {
@@ -51,6 +52,18 @@ export class UsersController {
       message: 'Пользователь создан',
       data: body
     }
+  }
+
+
+  @Put(':id')
+  update(){
+    return 'Update user'
+  }
+
+
+  @Delete(':id')
+  deleteUser(){
+    return 'delete User'
   }
 
 }
