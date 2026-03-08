@@ -1,69 +1,59 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
   Get,
-  NotFoundException,
   Param,
-  ParseIntPipe,
-  Post, Put,
-  Query
+  Post,
 } from '@nestjs/common';
+import { UsersService } from "./users.service";
+import {AppService} from "../app.service";
 
 
 // порядок следования важен - видимость и реакция url на выдачу
 @Controller('users')
 export class UsersController {
+  // необходимо зарегистрировать сервис
+  constructor(private readonly userService: UsersService) {}
 
   @Get()
-  getAllUsers(): string {
-    return 'All users'
+  getAllUsers(): { id: number, name: string }[] {
+    return this.userService.getAllUsers();
   }
 
-  @Get('about')
-  getAllUsersAbout(): string {
-    return 'All users about'
-  }
-
-  @Get('search')
-  getUserSearch(
-    @Query('name') name: string,
-    @Query('age') age: string
-  ): string {
-    return `User with name: ${name}, and age: ${age}`
-  }
+  // @Get('about')
+  // getAllUsersAbout(): string {
+  //   return 'All users about'
+  // }
+  //
+  // @Get('search')
+  // getUserSearch(
+  //   @Query('name') name: string,
+  //   @Query('age') age: string
+  // ): string {
+  //   return `User with name: ${name}, and age: ${age}`
+  // }
 
   @Get(':id')
-  getUserById(@Param('id', ParseIntPipe) id: number): string {
-    if (id === 0) {
-      throw new NotFoundException('Поле id не может быть 0')
-    }
-
-    return `User with ID : ${id}`
+  getUserById(@Param('id') id: string): { id: number, name: string } {
+    return this.userService.getUserById(Number(id))
   }
 
 
   @Post()
   create(@Body() body: any){
-    if (!body.name) {
-      throw new NotFoundException('User no valid: no name field')
-    }
-
-    return {
-      message: 'Пользователь создан',
-      data: body
-    }
+    return this.userService.createUser(body.name)
   }
 
 
-  @Put(':id')
-  update(){
-    return 'Update user'
-  }
-
-
-  @Delete(':id')
-  deleteUser(){
-    return 'delete User'
-  }
+  // @Put(':id')
+  // update(){
+  //   return 'Update user'
+  // }
+  //
+  //
+  // @Delete(':id')
+  // deleteUser(){
+  //   return 'delete User'
+  // }
 
 }
