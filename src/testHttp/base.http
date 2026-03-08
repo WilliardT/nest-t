@@ -1,6 +1,6 @@
 
 GET http://localhost:3000/users/1
-#Content-Type: application/json
+Content-Type: application/json
 
 
 #GET http://localhost:3000/users/search?name=ivan&age=23

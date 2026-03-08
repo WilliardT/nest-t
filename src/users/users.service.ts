@@ -15,7 +15,7 @@ export class UsersService {
 
   getUserById(id: number) {
     const user = this.users.find(user => {
-      user.id === id;
+      return user.id === id;
     })
 
     if (!user) {
