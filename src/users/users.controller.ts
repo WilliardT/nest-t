@@ -6,7 +6,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { UsersService } from "./users.service";
-import {AppService} from "../app.service";
+import { CreateUsersDto } from "./create-users.dto";
 
 
 // порядок следования важен - видимость и реакция url на выдачу
@@ -34,14 +34,14 @@ export class UsersController {
   // }
 
   @Get(':id')
-  getUserById(@Param('id') id: string): { id: number, name: string } {
+  getUserById(@Param('id') id: string): { id: number, name: string, bio: string } {
     return this.userService.getUserById(Number(id))
   }
 
 
   @Post()
-  create(@Body() body: any){
-    return this.userService.createUser(body.name)
+  create(@Body() body: CreateUsersDto){
+    return this.userService.createUser(body)
   }
 
 
