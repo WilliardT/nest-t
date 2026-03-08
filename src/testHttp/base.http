@@ -14,7 +14,8 @@ GET http://localhost:3000/users
 #Content-Type: application/json
 #
 #{
-#  "name": "Maria"
+#  "name": "Maria 2",
+#  "bio": "dsfsfsfdfs"
 #}
 
 
