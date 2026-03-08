@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { TypeOrmModule } from "@nestjs/typeorm";
-
-// docker run --name nest-db-conteiner -e POSTGRES_PASSWORD=postgres_pass -p 5432:5432 -d postgres
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 
 @Module({
@@ -17,9 +15,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       password: 'postgres_pass', // пароль от бд
       database: 'nestjs_bd', // имя базы данных
       autoLoadEntities: true, // автоматически подключает все entity
-      synchronize: true // авто создание таблиц по entity
+      synchronize: true, // авто создание таблиц по entity
     }),
-    UsersModule
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

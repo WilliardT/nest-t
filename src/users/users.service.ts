@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUsersDto } from "./create-users.dto";
-import { InjectRepository } from "@nestjs/typeorm";
-import { UserEntity } from "./user.entity";
-import { Repository } from "typeorm";
+import { CreateUsersDto } from './create-users.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from './user.entity';
+import { Repository } from 'typeorm';
 
 // сервис - Бизнес логика
 @Injectable()
@@ -15,18 +15,18 @@ export class UsersService {
 
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>
+    private userRepository: Repository<UserEntity>,
   ) {}
 
   getAllUsers() {
-    return this.userRepository.find()
+    return this.userRepository.find();
   }
 
   getUserById(id: number) {
-    const user = this.userRepository.findOneBy({ id })
+    const user = this.userRepository.findOneBy({ id });
 
     if (!user) {
-      throw new NotFoundException(`user с ${id} не найден`)
+      throw new NotFoundException(`user с ${id} не найден`);
     }
 
     return user;

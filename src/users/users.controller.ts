@@ -1,12 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-} from '@nestjs/common';
-import { UsersService } from "./users.service";
-import { CreateUsersDto } from "./create-users.dto";
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUsersDto } from './create-users.dto';
 
 
 // порядок следования важен - видимость и реакция url на выдачу
@@ -16,7 +10,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  getAllUsers(){
+  getAllUsers() {
     return this.userService.getAllUsers();
   }
 
@@ -35,15 +29,13 @@ export class UsersController {
 
   @Get(':id')
   getUserById(@Param('id') id: string) {
-    return this.userService.getUserById(Number(id))
+    return this.userService.getUserById(Number(id));
   }
-
 
   @Post()
-  create(@Body() body: CreateUsersDto){
-    return this.userService.createUser(body)
+  create(@Body() body: CreateUsersDto) {
+    return this.userService.createUser(body);
   }
-
 
   // @Put(':id')
   // update(){
