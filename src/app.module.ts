@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 
+// docker run --name nest-db-conteiner -e POSTGRES_PASSWORD=postgres_pass -p 5432:5432 -d postgres
+
 
 @Module({
   imports: [
