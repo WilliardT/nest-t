@@ -1,23 +1,29 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {CreateUsersDto} from "./create-users.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateUsersDto } from "./create-users.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { UserEntity } from "./user.entity";
+import { Repository } from "typeorm";
 
 // сервис - Бизнес логика
 @Injectable()
 export class UsersService {
   // модификатор доступа private (доступен только внутри данного класса)
-  private users = [
-    { id: 1, name: 'Ivan', bio: 'some info' },
-    { id: 2, name: 'Alex', bio: 'some info' }
-  ]
+  // private users = [
+  //   { id: 1, name: 'Ivan', bio: 'some info' },
+  //   { id: 2, name: 'Alex', bio: 'some info' }
+  // ]
 
-  getAllUsers(): { id: number, name: string, bio: string }[] {
-    return this.users
+  constructor(
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>
+  ) {}
+
+  getAllUsers() {
+    return this.userRepository.find()
   }
 
   getUserById(id: number) {
-    const user = this.users.find(user => {
-      return user.id === id;
-    })
+    const user = this.userRepository.findOneBy({ id })
 
     if (!user) {
       throw new NotFoundException(`user с ${id} не найден`)
@@ -27,14 +33,12 @@ export class UsersService {
   }
 
   createUser(body: CreateUsersDto) {
-    const newUser = {
-      id: this.users.length + 1,
-      name: body.name,
-      bio: body.bio
-    }
+    const name = body.name;
+    const bio = body.bio;
 
-    this.users.push(newUser);
+    const user: UserEntity = this.userRepository.create({ name, bio });
 
-    return newUser;
+    return this.userRepository.save(user);
   }
+
 }

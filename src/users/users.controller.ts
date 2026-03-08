@@ -16,7 +16,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  getAllUsers(): { id: number, name: string }[] {
+  getAllUsers(){
     return this.userService.getAllUsers();
   }
 
@@ -34,7 +34,7 @@ export class UsersController {
   // }
 
   @Get(':id')
-  getUserById(@Param('id') id: string): { id: number, name: string, bio: string } {
+  getUserById(@Param('id') id: string) {
     return this.userService.getUserById(Number(id))
   }
 
