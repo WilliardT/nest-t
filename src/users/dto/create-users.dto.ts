@@ -16,9 +16,9 @@ export class CreateUsersDto {
   // IsPositive({message: 'должно быть положительным числом'})
 
 
-  @IsArray({message: 'должно быть положительным числом'})
-  //@IsString({each: true, message: 'Каждый тег - должен быть строкой'}) // чтобы были одного типа
-  @IsEnum(EUserType, {each: true, message: 'Недопустимое значение тега'}) // чтобы были одного типа
   @IsOptional()
+  @IsArray( {message: 'Поле userType должно быть массивом'} )
+  //@IsString({each: true, message: 'Каждый тег - должен быть строкой'}) // чтобы были одного типа
+  @IsEnum(EUserType, { each: true, message: 'Недопустимое значение тега' }) // чтобы были одного типа
   userType : EUserType[]
 }

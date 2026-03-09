@@ -13,6 +13,8 @@ export class UserEntity {
   @Column({ nullable: true })
   bio?: string;
 
-  @Column({ nullable: true })
-  userType: EUserType[];
+  // @Column({ nullable: true })
+  // userType: EUserType[];
+  @Column('simple-array', { nullable: true })
+  userType: string[];
 }

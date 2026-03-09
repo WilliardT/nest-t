@@ -7,14 +7,14 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // валидация для DTO
-  app.useGlobalPipes(new ValidationPipe());
+  //app.useGlobalPipes(new ValidationPipe());
 
   // валидация до обращения к базе, и например id не будет тратиться на невалидные запросы.
-  // app.useGlobalPipes(new ValidationPipe({
-  //   whitelist: true,
-  //   transform: true,
-  //   stopAtFirstError: true
-  // }));
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    transform: true,
+    stopAtFirstError: true
+  }));
 
 
   // app.enableCors({

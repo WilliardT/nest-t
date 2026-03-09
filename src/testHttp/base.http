@@ -29,10 +29,18 @@
 
 #DELETE http://localhost:3000/users/3
 
+#POST http://localhost:3000/users
+#Content-Type: application/json
+#
+#{
+#  "name": "Директор 2",
+#  "userType": ["colleague"]
+#}
+
 POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Директор 1",
-  "userType": ["colleague"]
+  "name": "Директор 2",
+  "userType": ["выа"]
 }
