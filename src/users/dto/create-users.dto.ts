@@ -9,4 +9,8 @@ export class CreateUsersDto {
   @IsString({ message: 'Поле Биография должно быть строкой' })
   @MinLength(5, { message: 'Поле Имя должно быть от 5 символов' })
   bio?: string;
+
+  // IsNumber({}, {message: 'Поле должно быть числом'})
+  // IsInt({message: 'Поле должно быть целым числом'})
+  // IsPositive({message: 'должно быть положительным числом'})
 }
