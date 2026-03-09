@@ -1,4 +1,5 @@
-import { IsOptional, IsString, MinLength } from 'class-validator';
+import { IsArray, IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
+import { EUserType } from "../constants/constants";
 
 export class CreateUsersDto {
   @IsString({ message: 'Поле Имя должно быть строкой' })
@@ -14,8 +15,10 @@ export class CreateUsersDto {
   // IsInt({message: 'Поле должно быть целым числом'})
   // IsPositive({message: 'должно быть положительным числом'})
 
-  // IsArray({message: 'должно быть положительным числом'})
-  // IsString({each: true, message: ' Каждый тег - должен быть строкой'}) // чтобы были одного типа
-  // @IsOptional()
-  // tags: string[]
+
+  @IsArray({message: 'должно быть положительным числом'})
+  //@IsString({each: true, message: 'Каждый тег - должен быть строкой'}) // чтобы были одного типа
+  @IsEnum(EUserType, {each: true, message: 'Недопустимое значение тега'}) // чтобы были одного типа
+  @IsOptional()
+  userType : EUserType[]
 }

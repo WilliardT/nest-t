@@ -34,11 +34,12 @@ export class UsersService {
   }
 
   createUser(body: CreateUsersDto) {
-    const { name, bio } = body
+    const { name, bio, userType } = body
 
     const user: UserEntity = this.userRepository.create({
       name,
-      bio: bio || undefined
+      bio: bio || undefined,
+      userType: userType || []
     });
 
     return this.userRepository.save(user);
