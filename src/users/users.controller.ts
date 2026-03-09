@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {Body, Controller, Get, Param, ParseIntPipe, Post} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './create-users.dto';
 
@@ -27,9 +27,10 @@ export class UsersController {
   //   return `User with name: ${name}, and age: ${age}`
   // }
 
+  // Pipes — ParseIntPipe преобразование данных и валидация
   @Get(':id')
-  getUserById(@Param('id') id: string) {
-    return this.userService.getUserById(Number(id));
+  getUserById(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getUserById(id);
   }
 
   @Post()
