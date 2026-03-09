@@ -1,6 +1,7 @@
 
 GET http://localhost:3000/users/10
-#Content-Type: application/json
+authorization: secret-token
+Content-Type: application/json
 
 
 #GET http://localhost:3000/users/search?name=ivan&age=23

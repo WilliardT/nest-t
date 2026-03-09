@@ -1,6 +1,7 @@
-import {Body, Controller, Get, Param, ParseIntPipe, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './create-users.dto';
+import {AuthGuard} from "./auth.guard";
 
 
 // порядок следования важен - видимость и реакция url на выдачу
@@ -27,9 +28,9 @@ export class UsersController {
   //   return `User with name: ${name}, and age: ${age}`
   // }
 
-  // Pipes — ParseIntPipe преобразование данных и валидация
   @Get(':id')
-  getUserById(@Param('id', ParseIntPipe) id: number) {
+  @UseGuards(AuthGuard)   // guards работает после pipes до controller
+  getUserById(@Param('id', ParseIntPipe) id: number) {  // Pipes — ParseIntPipe преобразование данных и валидация
     return this.userService.getUserById(id);
   }
 
