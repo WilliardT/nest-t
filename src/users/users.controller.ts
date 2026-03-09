@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+import {Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UseGuards} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { AuthGuard } from "./auth.guard";
+import {UpdateUsersDto} from "./dto/update-users.dto";
 
 
 // порядок следования важен - видимость и реакция url на выдачу
@@ -24,6 +25,15 @@ export class UsersController {
   @Post()
   create(@Body() body: CreateUsersDto) {
     return this.userService.createUser(body);
+  }
+
+  @Patch(':id')
+  // @UseGuards(AuthGuard)
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUsersDto
+  ) {
+    return this.userService.updateUser(id, body);
   }
 
 }

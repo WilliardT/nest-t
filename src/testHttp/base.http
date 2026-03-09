@@ -1,7 +1,7 @@
 
-GET http://localhost:3000/users/1
-authorization: secret-token
-Content-Type: application/json
+#GET http://localhost:3000/users/1
+#authorization: secret-token
+#Content-Type: application/json
 
 
 #GET http://localhost:3000/users/search?name=ivan&age=23
@@ -19,4 +19,11 @@ Content-Type: application/json
 #  "bio": "dsfsfsfdfs"
 #}
 
+
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+  "bio": "Ппросто Маааарииияя"
+}
 

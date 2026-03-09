@@ -3,6 +3,7 @@ import { CreateUsersDto } from './dto/create-users.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
+import {UpdateUsersDto} from "./dto/update-users.dto";
 
 // сервис - Бизнес логика
 @Injectable()
@@ -23,7 +24,7 @@ export class UsersService {
   }
 
   async getUserById(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user: UserEntity | null = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException(`user с ${id} не найден`);
@@ -39,6 +40,25 @@ export class UsersService {
     const user: UserEntity = this.userRepository.create({ name, bio });
 
     return this.userRepository.save(user);
+  }
+
+  async updateUser(id: number, dto: UpdateUsersDto) {
+    const user = await this.userRepository.findOneBy({ id })
+
+    if (!user) {
+      throw new NotFoundException(`user с ${id} не найден`);
+    }
+
+    if (dto.name) {
+      user.name = dto.name;
+    }
+
+    if (dto.bio) {
+      user.bio = dto.bio;
+    }
+
+    return this.userRepository.save(user);
+
   }
 
 }
