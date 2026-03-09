@@ -1,4 +1,14 @@
-import {Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UseGuards} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { AuthGuard } from "./auth.guard";
@@ -27,13 +37,21 @@ export class UsersController {
     return this.userService.createUser(body);
   }
 
+  // patchUpdate
   @Patch(':id') // частичное обновление
   // @UseGuards(AuthGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateUsersDto
+    @Body() body: UpdateUsersDto // Partial<UpdateUsersDto>
   ) {
     return this.userService.updateUser(id, body);
+  }
+
+  @Delete(':id')
+  delete(
+    @Param('id', ParseIntPipe) id: number,
+  ){
+    return this.userService.deleteUser(id);
   }
 
 }

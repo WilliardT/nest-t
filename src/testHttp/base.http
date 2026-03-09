@@ -20,10 +20,12 @@
 #}
 
 
-PATCH http://localhost:3000/users/1
-Content-Type: application/json
+#PATCH http://localhost:3000/users/1
+#Content-Type: application/json
+#
+#{
+#  "bio": "Ппросто Маааарииияя"
+#}
 
-{
-  "bio": "Ппросто Маааарииияя"
-}
+#DELETE http://localhost:3000/users/3
 

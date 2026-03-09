@@ -58,7 +58,16 @@ export class UsersService {
     }
 
     return this.userRepository.save(user);
+  }
 
+  async deleteUser(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new NotFoundException(`user с ${id} не найден`);
+    }
+
+    return this.userRepository.remove(user);
   }
 
 }
