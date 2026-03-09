@@ -8,6 +8,7 @@ export class UserEntity {
   @Column()
   name: string;
 
-  @Column()
-  bio: string;
+  // опционально
+  @Column({ nullable: true })
+  bio?: string;
 }

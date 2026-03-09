@@ -9,6 +9,14 @@ async function bootstrap() {
   // валидация для DTO
   app.useGlobalPipes(new ValidationPipe());
 
+  // валидация до обращения к базе, и например id не будет тратиться на невалидные запросы.
+  // app.useGlobalPipes(new ValidationPipe({
+  //   whitelist: true,
+  //   transform: true,
+  //   stopAtFirstError: true
+  // }));
+
+
   // app.enableCors({
   //   origin: ['http://localhost:3001', 'http://127.0.0.1:3001'],
   //   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
