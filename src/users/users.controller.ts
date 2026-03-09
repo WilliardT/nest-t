@@ -27,7 +27,7 @@ export class UsersController {
     return this.userService.createUser(body);
   }
 
-  @Patch(':id')
+  @Patch(':id') // частичное обновление
   // @UseGuards(AuthGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
