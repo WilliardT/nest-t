@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddlewareUsers } from "./users/middleware/logger.middleware";
+import { MovieModule } from './movie/movie.module';
 
 
 @Module({
@@ -11,14 +12,16 @@ import { LoggerMiddlewareUsers } from "./users/middleware/logger.middleware";
     TypeOrmModule.forRoot({
       type: 'postgres',          // тип бвзы данных
       host: 'localhost',         //  хост бд
-      port: 5432, // стандартный порт PostgreSQL
+      port: 5432,                // стандартный порт PostgreSQL
       username: 'postgres_user', // имя пользователя в бд
       password: 'postgres_pass', // пароль от бд
       database: 'nestjs_bd',     // имя базы данных
       autoLoadEntities: true,    // автоматически подключает все entity
       synchronize: true,         // авто создание таблиц по entity
     }),
+
     UsersModule,
+    MovieModule,
   ],
   controllers: [AppController],
   providers: [AppService],
