@@ -1,4 +1,4 @@
-import {IsArray, IsEnum, IsOptional, IsString, Matches, MinLength} from 'class-validator';
+import {IsArray, IsEnum, IsOptional, IsString, IsUrl, Matches, MinLength} from 'class-validator';
 import { EUserType } from "../constants/constants";
 
 export class CreateUsersDto {
@@ -17,7 +17,7 @@ export class CreateUsersDto {
 
 
   @IsOptional()
-  @IsArray( {message: 'Поле userType должно быть массивом'} )
+  @IsArray({ message: 'Поле userType должно быть массивом' })
   //@IsString({each: true, message: 'Каждый тег - должен быть строкой'}) // чтобы были одного типа
   @IsEnum(EUserType, { each: true, message: 'Недопустимое значение тега' }) // чтобы были одного типа
   userType : EUserType[]
@@ -25,4 +25,8 @@ export class CreateUsersDto {
 
   // @Matches (например регулярку)
   // password: string;
+
+  // etc
+  // @IsUrl({protocols: ['https']}, { message: 'Некорректный формат url' })
+  // websiteUrl: string
 }
