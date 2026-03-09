@@ -24,6 +24,9 @@ async function bootstrap() {
   //   credentials: false // куки или сессии
   // })
 
+
+  //app.setGlobalPrefix('api')
+
   await app.listen(process.env.PORT ?? 3000);
 }
 
