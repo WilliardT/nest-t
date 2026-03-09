@@ -1,4 +1,4 @@
-import {IsArray, IsEnum, IsOptional, IsString, IsUrl, Matches, MinLength} from 'class-validator';
+import { IsArray, IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
 import { EUserType } from "../constants/constants";
 
 export class CreateUsersDto {
@@ -29,4 +29,8 @@ export class CreateUsersDto {
   // etc
   // @IsUrl({protocols: ['https']}, { message: 'Некорректный формат url' })
   // websiteUrl: string
+
+
+  // @IsUUID('4', { message: "" })  // fdfsf-74fdsf-3vfdf-43vvcdfg
+  // userId: string;
 }
