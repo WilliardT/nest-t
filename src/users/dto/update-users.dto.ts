@@ -1,9 +1,11 @@
-import { IsOptional, IsString, MinLength } from "class-validator";
+import {IsOptional, IsString, MinLength} from "class-validator";
 
 
 export class UpdateUsersDto {
   @IsOptional()
   @IsString({ message: 'Поле Имя должно быть строкой' })
+  //@IsNotEmpty({message: 'Имя не может быть пустым'})
+  //@Length
   @MinLength(3, { message: 'Поле Имя должно быть от 3 символов' })
   name?: string;
 
