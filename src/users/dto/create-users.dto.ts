@@ -13,4 +13,9 @@ export class CreateUsersDto {
   // IsNumber({}, {message: 'Поле должно быть числом'})
   // IsInt({message: 'Поле должно быть целым числом'})
   // IsPositive({message: 'должно быть положительным числом'})
+
+  // IsArray({message: 'должно быть положительным числом'})
+  // IsString({each: true, message: ' Каждый тег - должен быть строкой'}) // чтобы были одного типа
+  // @IsOptional()
+  // tags: string[]
 }
