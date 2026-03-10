@@ -14,19 +14,20 @@ import { MovieModule } from './movie/movie.module';
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      inject: [ConfigService],
 
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: config.get<string>('POSTGRES_HOST', 'localhost'),
-        port: config.get<number>('POSTGRES_PORT', 5432),
-        username: config.get<string>('POSTGRES_USER', 'postgres_user'),
-        password: config.get<string>('POSTGRES_PASSWORD', 'postgres_pass'),
-        database: config.get<string>('POSTGRES_DATABASE', 'nestjs_bd'),
+        host: config.getOrThrow<string>('POSTGRES_HOST'),
+        port: config.getOrThrow<number>('POSTGRES_PORT'),
+        username: config.getOrThrow<string>('POSTGRES_USER'),
+        password: config.getOrThrow<string>('POSTGRES_PASSWORD'),
+        database: config.getOrThrow<string>('POSTGRES_DATABASE'),
 
         autoLoadEntities: true,
         synchronize: true,
       }),
+
+      inject: [ConfigService],
     }),
 
     UsersModule,
