@@ -14,7 +14,7 @@ export async function getTypeOrmConfig(
     database: configService.getOrThrow<string>('POSTGRES_DATABASE'),
 
     autoLoadEntities: true,
-    synchronize: true,
+    synchronize: true, // для разработки
   }
 }
 

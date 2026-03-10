@@ -15,9 +15,7 @@ import { getTypeOrmConfig } from "./config/typeorm.config";
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-
       useFactory: getTypeOrmConfig,
-
       inject: [ConfigService],
     }),
 

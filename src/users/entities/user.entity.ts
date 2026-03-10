@@ -1,7 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import {EUserType} from "./constants/constants";
 
-@Entity()
+
+@Entity({
+  name: 'users'
+})
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
