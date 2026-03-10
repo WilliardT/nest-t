@@ -1,0 +1,22 @@
+#version: '3.9'
+#
+#services:
+#  postres:
+#    container_name: postgres
+#    image: postgres:latest
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=${POSTGRES_USER}
+#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#    ports:
+#      - 5433:5332
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - local-network
+#
+#volumes:
+#  postgres_data:
+#
+#networks:
+#  local-network:
