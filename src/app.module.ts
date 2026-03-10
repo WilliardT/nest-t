@@ -3,26 +3,30 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-//import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddlewareUsers } from "./users/middleware/logger.middleware";
 import { MovieModule } from './movie/movie.module';
 
 
 @Module({
   imports: [
-    //ConfigModule.forRoot(), // Загрузка переменных окружения из .env
+    ConfigModule.forRoot({ isGlobal: true }),
 
-    //TypeOrmModule.forRootAsync({
-    //  useFactory: async() => ({
-    TypeOrmModule.forRoot({
-      type: 'postgres',          // тип бвзы данных
-      host: 'localhost',         //  хост бд
-      port: 5432,                // стандартный порт PostgreSQL
-      username: 'postgres_user', // имя пользователя в бд
-      password: 'postgres_pass', // пароль от бд
-      database: 'nestjs_bd',     // имя базы данных
-      autoLoadEntities: true,    // автоматически подключает все entity
-      synchronize: true,         // авто создание таблиц по entity
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        host: config.get<string>('POSTGRES_HOST', 'localhost'),
+        port: config.get<number>('POSTGRES_PORT', 5432),
+        username: config.get<string>('POSTGRES_USER', 'postgres_user'),
+        password: config.get<string>('POSTGRES_PASSWORD', 'postgres_pass'),
+        database: config.get<string>('POSTGRES_DATABASE', 'nestjs_bd'),
+
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
     }),
 
     UsersModule,
