@@ -1,5 +1,7 @@
 import {Body, Controller, Get, Param, Post, Query, Req, Res} from '@nestjs/common';
 import { MovieService } from './movie.service';
+import { CreateMovieDto } from "./dto/create-movie.dto";
+
 
 @Controller({
   path: 'movies'
@@ -10,7 +12,7 @@ export class MovieController {
 
   @Get()
   findAll(@Query() query: any){
-    return {}
+    return this.movieService.findAll();
   }
 
   @Get(':id')
@@ -19,8 +21,8 @@ export class MovieController {
   }
 
   @Post()
-  create(@Body() body: { title: string }) {
-    return body
+  create(@Body() body: CreateMovieDto) {
+    return this.movieService.create(body)
   }
 
   // заголовки
