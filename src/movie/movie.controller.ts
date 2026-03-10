@@ -1,6 +1,18 @@
-import {Body, Controller, Get, Param, Post, Query, Req, Res} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+  Req,
+  Res
+} from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from "./dto/create-movie.dto";
+import { UpdateMovieDto } from "./dto/update-movie.dto";
 
 
 @Controller({
@@ -16,14 +28,23 @@ export class MovieController {
   }
 
   @Get(':id')
-  findById(@Param('id') id:string){
-    return { id }
+  findById(@Param('id', ParseIntPipe) id: number){
+    return this.movieService.findById(id)
   }
 
   @Post()
   create(@Body() body: CreateMovieDto) {
     return this.movieService.create(body)
   }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id:number,
+    @Body() dto: UpdateMovieDto
+  ) {
+    return this.movieService.update(id, dto)
+  }
+
 
   // заголовки
   // @Get('headers')
