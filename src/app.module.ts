@@ -3,12 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+//import { ConfigModule } from '@nestjs/config';
 import { LoggerMiddlewareUsers } from "./users/middleware/logger.middleware";
 import { MovieModule } from './movie/movie.module';
 
 
 @Module({
   imports: [
+    //ConfigModule.forRoot(), // Загрузка переменных окружения из .env
+
+    //TypeOrmModule.forRootAsync({
+    //  useFactory: async() => ({
     TypeOrmModule.forRoot({
       type: 'postgres',          // тип бвзы данных
       host: 'localhost',         //  хост бд
