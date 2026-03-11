@@ -8,7 +8,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn
 } from "typeorm";
-import {MovieEntity} from "../../movie/entities/movie.entity";
+import { MovieEntity } from "../../movie/entities/movie.entity";
 
 
 @Entity({
@@ -45,7 +45,8 @@ export class ReviewEntity {
     }
   )
   @JoinColumn({
-    name: 'movie_uuid'
+    name: 'movie_uuid',
+    referencedColumnName: 'uuid', // явное указание на что ссылаться
   })
   movie: MovieEntity;
 

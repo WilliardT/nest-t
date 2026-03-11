@@ -19,7 +19,10 @@ export class MovieEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryColumn()   // первичный ключ без автоинкримента
+  @Column({
+    unique: true, // UNIQUE constraint на столбец в PostgreSQL - обязательным условием для foreign key
+    type: 'uuid'
+  })
   @Generated('uuid')
   uuid: string;
 
