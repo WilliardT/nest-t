@@ -61,4 +61,15 @@ export class MovieService {
     return true;
   }
 
+  // patch частичное изменение
+
+  async delete(id: number):Promise<number> {
+    //const movie = await this.movieRepository.findOne({}) or .findOneBy({ id });
+    const movie = await this.findById(id)
+
+    await this.movieRepository.remove(movie)
+
+    return movie.id
+  }
+
 }
