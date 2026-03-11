@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import {EMovieGenre} from "../constants/constants";
 
 
 @Entity({
@@ -60,6 +61,14 @@ export class MovieEntity {
     nullable: true
   })
   releaseDate: string;
+
+  @Column({
+    type: 'enum',
+    enum: EMovieGenre,
+    //default: EMovieGenre.DRAMA
+    nullable: true
+  })
+  genre: EMovieGenre
 
   @CreateDateColumn({
     name: 'created_at'
