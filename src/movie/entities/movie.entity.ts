@@ -1,4 +1,12 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from "typeorm";
 
 
 @Entity({
@@ -7,6 +15,10 @@ import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColu
 export class MovieEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @PrimaryColumn()   // первичный ключ без автоинкримента
+  @Generated('uuid')
+  uuid: string;
 
   @Column()
   title: string;
