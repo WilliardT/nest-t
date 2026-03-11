@@ -1,9 +1,9 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { MovieEntity } from "./entities/movie.entity";
 import { Repository } from "typeorm";
 import { CreateMovieDto } from "./dto/create-movie.dto";
-import {UpdateMovieDto} from "./dto/update-movie.dto";
+import { UpdateMovieDto } from "./dto/update-movie.dto";
 
 
 @Injectable()
@@ -16,7 +16,7 @@ export class MovieService {
   async findAll():Promise<MovieEntity[]>{
     return await this.movieRepository.find({
       where:{
-        isPublic: true
+        isAvailable: true
       },
       order: {
         createdAt: 'desc'

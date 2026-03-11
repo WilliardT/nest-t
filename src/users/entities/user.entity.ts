@@ -17,6 +17,10 @@ export class UserEntity {
 
   // @Column({ nullable: true })
   // userType: EUserType[];
-  @Column('simple-array', { nullable: true })
+  @Column({
+    name: "user_type",
+    type: "simple-array",
+    nullable: true
+  })
   userType: string[];
 }
