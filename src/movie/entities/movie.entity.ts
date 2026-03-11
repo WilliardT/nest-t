@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import {EMovieGenre} from "../constants/constants";
+import { EMovieGenre } from "../constants/constants";
+import { ReviewEntity } from "../../review/entities/review.entity";
 
 
 @Entity({
@@ -69,6 +71,12 @@ export class MovieEntity {
     nullable: true
   })
   genre: EMovieGenre
+
+  @OneToMany(
+    () => ReviewEntity,
+    (review: ReviewEntity) => review.movie
+  )
+  reviews: ReviewEntity[]
 
   @CreateDateColumn({
     name: 'created_at'
