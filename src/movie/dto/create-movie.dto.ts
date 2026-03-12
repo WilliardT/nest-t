@@ -22,6 +22,9 @@ export class CreateMovieDto {
   @Max(new Date().getFullYear())
   releaseYear: number;
 
+  @IsString()
+  imageIUrl: string
+
   @IsArray()
   @ArrayNotEmpty()
   @ArrayUnique()
