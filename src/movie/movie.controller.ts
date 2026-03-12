@@ -1,7 +1,9 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -13,7 +15,7 @@ import {
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from "./dto/create-movie.dto";
 import { UpdateMovieDto } from "./dto/update-movie.dto";
-import {ApiOperation, ApiTags} from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 
 @ApiTags('Movies')
@@ -27,6 +29,10 @@ export class MovieController {
   @ApiOperation({
     summary: 'Получить все фильмы',
     description: 'Возвращает все фильмы по установленному условию выборки из базы данных'
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Фильмы найдены:'
   })
   @Get()
   findAll(@Query() query: any){
