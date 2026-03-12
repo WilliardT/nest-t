@@ -2,13 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Generated,
+  Generated, JoinTable, ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { EMovieGenre } from "../constants/constants";
 import { ReviewEntity } from "../../review/entities/review.entity";
+import {ActorEntity} from "../../actor/entities/actor.entity";
 
 
 @Entity({
@@ -79,6 +80,20 @@ export class MovieEntity {
     (review: ReviewEntity) => review.movie
   )
   reviews: ReviewEntity[]
+
+  @ManyToMany(() => ActorEntity, (actor: ActorEntity): MovieEntity[] => actor.movies)
+  @JoinTable({
+    name: 'movie_actors', // имя промежуточной таблицы
+    joinColumn: {
+      name: 'movie_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'actor_id',
+      referencedColumnName: 'id'
+    }
+  })
+  actors: ActorEntity[]
 
   @CreateDateColumn({
     name: 'created_at'

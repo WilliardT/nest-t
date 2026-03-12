@@ -8,6 +8,7 @@ import { LoggerMiddlewareUsers } from "./users/middleware/logger.middleware";
 import { MovieModule } from './movie/movie.module';
 import { getTypeOrmConfig } from "./config/typeorm.config";
 import { ReviewModule } from './review/review.module';
+import { ActorModule } from './actor/actor.module';
 
 
 @Module({
@@ -23,6 +24,7 @@ import { ReviewModule } from './review/review.module';
     UsersModule,
     MovieModule,
     ReviewModule,
+    ActorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
