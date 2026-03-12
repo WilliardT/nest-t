@@ -1,16 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { MovieEntity } from "./entities/movie.entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { CreateMovieDto } from "./dto/create-movie.dto";
 import { UpdateMovieDto } from "./dto/update-movie.dto";
+import { ActorEntity } from "../actor/entities/actor.entity";
 
 
 @Injectable()
 export class MovieService {
   constructor(
     @InjectRepository(MovieEntity)
-    private readonly movieRepository: Repository<MovieEntity>
+    private readonly movieRepository: Repository<MovieEntity>,
+    @InjectRepository(ActorEntity)
+    private readonly actorRepository: Repository<ActorEntity>
   ) {}
 
   async findAll():Promise<MovieEntity[]>{
@@ -45,7 +48,25 @@ export class MovieService {
   }
 
   async create(dto: CreateMovieDto):Promise<MovieEntity> {
-    const movie = this.movieRepository.create(dto)
+    const { title, releaseYear, actorIds } = dto
+
+    const uniqueActorIds = [...new Set(actorIds)]
+
+    const actors = await this.actorRepository.find({
+      where: {
+        id: In(uniqueActorIds)
+      }
+    })
+
+    if (actors.length !== uniqueActorIds.length) {
+      throw new NotFoundException('Один или несколько актеров не найдены')
+    }
+
+    const movie = this.movieRepository.create({
+      title,
+      releaseYear,
+      actors
+    })
 
     return await this.movieRepository.save(movie)
   }

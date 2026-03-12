@@ -2,14 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Generated, JoinTable, ManyToMany,
+  Generated,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { EMovieGenre } from "../constants/constants";
 import { ReviewEntity } from "../../review/entities/review.entity";
-import {ActorEntity} from "../../actor/entities/actor.entity";
+import { ActorEntity } from "../../actor/entities/actor.entity";
 
 
 @Entity({
