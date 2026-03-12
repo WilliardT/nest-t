@@ -38,6 +38,7 @@ export class MovieService {
       where: {
         id
       },
+      relations: ['actors']
     })
 
     if (!movie) {
