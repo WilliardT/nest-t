@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common
 import { AppService } from './app.service';
 import { StringToLowercasePipe } from "./common/pipes/string-to-lowercase.pipe";
 import { AuthGuard } from "./common/guards/auth.guard";
-import {UserAgentDecorator} from "./common/decorators/user-agent.decorator";
+import { UserAgentDecorator } from "./common/decorators/user-agent.decorator";
 
 
 @Controller()
