@@ -13,8 +13,10 @@ import {
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from "./dto/create-movie.dto";
 import { UpdateMovieDto } from "./dto/update-movie.dto";
+import {ApiOperation, ApiTags} from "@nestjs/swagger";
 
 
+@ApiTags('Movies')
 @Controller({
   path: 'movies'
   // etc settings
@@ -22,6 +24,10 @@ import { UpdateMovieDto } from "./dto/update-movie.dto";
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
+  @ApiOperation({
+    summary: 'Получить все фильмы',
+    description: 'Возвращает все фильмы по установленному условию выборки из базы данных'
+  })
   @Get()
   findAll(@Query() query: any){
     return this.movieService.findAll();
