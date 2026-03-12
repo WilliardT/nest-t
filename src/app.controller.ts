@@ -1,7 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
+import { StringToLowercasePipe } from "./common/pipes/string-to-lowercase.pipe";
 
-// url адреса
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -9,6 +10,14 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @UsePipes(StringToLowercasePipe)
+  @Post()
+  create(
+    @Body('title') title: string
+  ) {
+    return `Movie: ${title}`
   }
 
 }
