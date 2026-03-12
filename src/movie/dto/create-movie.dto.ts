@@ -5,6 +5,7 @@ import {
   IsArray,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Max,
   Min
@@ -22,8 +23,9 @@ export class CreateMovieDto {
   @Max(new Date().getFullYear())
   releaseYear: number;
 
+  @IsOptional()
   @IsString()
-  imageIUrl: string
+  imageUrl?: string
 
   @IsArray()
   @ArrayNotEmpty()

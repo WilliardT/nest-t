@@ -86,12 +86,13 @@ export class MovieEntity {
   posterId: string
 
   @OneToOne(() => MoviePosterEntity, (poster: MoviePosterEntity): MovieEntity => poster.movie, {
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    nullable: true,
   })
   @JoinColumn({
     name: 'poster_id'
   })
-  poster: MoviePosterEntity
+  poster: MoviePosterEntity | null
 
   @OneToMany(
     () => ReviewEntity,

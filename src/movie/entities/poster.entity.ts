@@ -14,7 +14,7 @@ export class MoviePosterEntity {
   })
   url: string
 
-  @OneToOne(() => MovieEntity, (movie: MovieEntity): MoviePosterEntity => movie.poster)
+  @OneToOne(() => MovieEntity, (movie: MovieEntity): MoviePosterEntity | null => movie.poster)
   movie: MovieEntity
 
   @CreateDateColumn({
