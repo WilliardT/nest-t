@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
-import { AuthGuard } from "./auth.guard";
 import { UpdateUsersDto } from "./dto/update-users.dto";
 
 
@@ -27,7 +26,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard)   // guards работает после pipes до controller
+  //@UseGuards(AuthGuard)   // guards работает после pipes до controller
   getUserById(@Param('id', ParseIntPipe) id: number) {  // Pipes — ParseIntPipe преобразование данных и валидация
     return this.userService.getUserById(id);
   }
