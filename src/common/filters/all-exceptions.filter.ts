@@ -28,6 +28,7 @@ export class AllExceptionFilter implements ExceptionFilter {
 
 
     this.logger.error(message, exception)
+    //this.logger.error(message)
 
     response.status(status).json({
       status,
