@@ -32,6 +32,8 @@ import { ActorModule } from './actor/actor.module';
 
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes(AppController)
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('*')
   }
 }
