@@ -5,7 +5,7 @@ import {
   Generated,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { MovieEntity } from "../../movie/entities/movie.entity";
@@ -15,9 +15,15 @@ import { MovieEntity } from "../../movie/entities/movie.entity";
   name: 'reviews'
 })
 export class ReviewEntity {
-  @PrimaryColumn()   // первичный ключ без автоинкримента
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({
+    unique: true,
+    type: 'uuid'
+  })
   @Generated('uuid')
-  uuid: string
+  uuid: string;
 
   @Column({
     type: "text",
@@ -33,10 +39,10 @@ export class ReviewEntity {
   rating: number;
 
   @Column({
-    name: 'movie_uuid',
-    type: 'uuid'
+    name: 'movie_id',
+    type: 'integer'
   })
-  movieUuid: string;
+  movieId: number;
 
   @ManyToOne(
     () => MovieEntity,
@@ -45,8 +51,8 @@ export class ReviewEntity {
     }
   )
   @JoinColumn({
-    name: 'movie_uuid',
-    referencedColumnName: 'uuid', // явное указание на что ссылаться
+    name: 'movie_id',
+    referencedColumnName: 'id', // явное указание на что ссылаться
   })
   movie: MovieEntity;
 

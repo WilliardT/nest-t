@@ -4,7 +4,6 @@ import {
   Entity,
   Generated,
   OneToMany,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
