@@ -8,6 +8,7 @@ import {
 import type { Response } from "express";
 
 
+// работает при ошибке
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionFilter.name)
