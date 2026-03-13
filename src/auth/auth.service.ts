@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "./entities/user.entity";
 import { QueryFailedError, Repository } from "typeorm";
 import { RegisterRequest } from "./dto/register.dto";
+import { PgErrorCode } from "../common/constants/pg-error-codes";
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class AuthService {
 
     } catch (err) {
 
-      if (err instanceof QueryFailedError && (err as any).code === '23505') {
+      if (err instanceof QueryFailedError && err.driverError.code === PgErrorCode.UniqueViolation) {
         throw new ConflictException('Пользователь с такой почтой уже существует')
       }
 
