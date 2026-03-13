@@ -47,7 +47,15 @@ export class MovieController {
     description: 'Возвращает информацию о фильме'
   })
   @ApiOkResponse({ description: 'Фильмы найден:' })
-  @ApiNotFoundResponse({ description: 'Фильм не найден.' })
+  @ApiNotFoundResponse({
+    description: 'Фильм не найден.',
+    example: {
+      status: 404,
+      message: 'Movie not found',
+      timestamp: '2026-03-13',
+      path: '/movie/123'
+    }
+  })
   @Get(':id')
   findById(@Param('id', ParseIntPipe) id: number){
     return this.movieService.findById(id)
