@@ -9,6 +9,7 @@ import { MovieModule } from './movie/movie.module';
 import { getTypeOrmConfig } from "./config/typeorm.config";
 import { ReviewModule } from './review/review.module';
 import { ActorModule } from './actor/actor.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -25,6 +26,7 @@ import { ActorModule } from './actor/actor.module';
     MovieModule,
     ReviewModule,
     ActorModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
