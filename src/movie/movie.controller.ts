@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -13,7 +12,12 @@ import {
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from "./dto/create-movie.dto";
 import { UpdateMovieDto } from "./dto/update-movie.dto";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags
+} from "@nestjs/swagger";
 
 
 @ApiTags('Movies')
@@ -24,40 +28,40 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
+  // ПОЛУЧИТЬ ВСЕ ФИЛЬМЫ
+
   @ApiOperation({
     summary: 'Получить все фильмы',
     description: 'Возвращает все фильмы по установленному условию выборки из базы данных'
   })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Фильмы найдены:'
-  })
+  @ApiOkResponse({ description: 'Фильмы найдены:' })
   @Get()
   findAll(@Query() query: any){
     return this.movieService.findAll();
   }
 
+  // ПОЛУЧИТЬ ФИЛЬМ ПО ID
+
   @ApiOperation({
     summary: 'Получить фильм по ID',
     description: 'Возвращает информацию о фильме'
   })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Фильмы найден:'
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Фильм не найден.'
-  })
+  @ApiOkResponse({ description: 'Фильмы найден:' })
+  @ApiNotFoundResponse({ description: 'Фильм не найден.' })
   @Get(':id')
   findById(@Param('id', ParseIntPipe) id: number){
     return this.movieService.findById(id)
   }
 
+  // СОЗДАТЬ ФИЛЬМ
+
+  @ApiOperation({ summary: 'Создать фильм', })
   @Post()
   create(@Body() body: CreateMovieDto) {
     return this.movieService.create(body)
   }
+
+  // ОБНОВИТЬ ФИЛЬМ
 
   @Put(':id')
   update(
@@ -66,6 +70,8 @@ export class MovieController {
   ) {
     return this.movieService.update(id, dto)
   }
+
+  // УДАЛИТЬ ФИЛЬМ
 
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
