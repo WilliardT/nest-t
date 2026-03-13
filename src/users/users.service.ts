@@ -9,10 +9,6 @@ import { UpdateUsersDto } from "./dto/update-users.dto";
 @Injectable()
 export class UsersService {
   // модификатор доступа private (доступен только внутри данного класса)
-  // private users = [
-  //   { id: 1, name: 'Ivan', bio: 'some info' },
-  //   { id: 2, name: 'Alex', bio: 'some info' }
-  // ]
 
   constructor(
     @InjectRepository(UserEntity)
