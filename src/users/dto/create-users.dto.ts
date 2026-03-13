@@ -1,6 +1,7 @@
 import { IsArray, IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
 import { EUserType } from "../constants/constants";
 
+
 export class CreateUsersDto {
   @IsString({ message: 'Поле Имя должно быть строкой' })
   @MinLength(3, { message: 'Поле Имя должно быть от 3 символов' })
