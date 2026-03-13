@@ -9,8 +9,6 @@ import {
   Post,
   Put,
   Query,
-  Req,
-  Res
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from "./dto/create-movie.dto";
@@ -39,6 +37,18 @@ export class MovieController {
     return this.movieService.findAll();
   }
 
+  @ApiOperation({
+    summary: 'Получить фильм по ID',
+    description: 'Возвращает информацию о фильме'
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Фильмы найден:'
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Фильм не найден.'
+  })
   @Get(':id')
   findById(@Param('id', ParseIntPipe) id: number){
     return this.movieService.findById(id)
