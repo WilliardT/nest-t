@@ -14,7 +14,7 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import type { IAuthResponse, IAuthTokens, IJwtPayload } from "./interfaces/jwt.interface";
 import { LoginRequest } from "./dto/login.dto";
-import type { Response } from "express"
+import type { Request, Response } from "express"
 import ms from "ms"
 import { isDev } from "../utils/is-dev.util";
 
