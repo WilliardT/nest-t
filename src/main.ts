@@ -3,8 +3,8 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ResponseInterceptor } from "./common/interceptors/response.interceptor";
 import { AllExceptionFilter } from "./common/filters/all-exceptions.filter";
-import { setupSwagger } from './config/swagger.config';
 import cookieParser from "cookie-parser";
+import { setupSwagger } from "./utils/swagger.util";
 
 
 async function bootstrap() {
