@@ -3,12 +3,17 @@ import { AuthService } from './auth.service';
 import { RegisterRequest } from "./dto/register.dto";
 import { LoginRequest } from "./dto/login.dto";
 import type { Request, Response } from "express";
+import { ApiOperation } from "@nestjs/swagger";
 
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({
+    summary: 'Создание аккаунта',
+    description: 'Создает новый аккаунт пользователя'
+  })
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(
@@ -18,6 +23,11 @@ export class AuthController {
     return await this.authService.register(res, dto)
   }
 
+
+  @ApiOperation({
+    summary: 'Вход в систему',
+    description: 'Авторизует пользователя и выдает токен доступа'
+  })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
@@ -27,6 +37,11 @@ export class AuthController {
     return await this.authService.login(res, dto)
   }
 
+
+  @ApiOperation({
+    summary: 'Обновление токена',
+    description: 'Генерирует новый токен доступа'
+  })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(
@@ -36,6 +51,10 @@ export class AuthController {
     return await this.authService.refresh(req, res)
   }
 
+
+  @ApiOperation({
+    summary: 'Выход из системы',
+  })
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(
