@@ -1,13 +1,14 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "./entities/user.entity";
 import { QueryFailedError, Repository } from "typeorm";
 import { RegisterRequest } from "./dto/register.dto";
 import { PgErrorCode } from "../common/constants/pg-error-codes";
-import { hash } from "argon2";
+import { hash, verify } from "argon2";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { IAuthTokens, IJwtPayload } from "./interfaces/jwt.interface";
+import { LoginRequest } from "./dto/login.dto";
 
 
 @Injectable()
@@ -25,6 +26,25 @@ export class AuthService {
     this.JWT_SECRET = configService.getOrThrow<string>('JWT_SECRET');
     this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string>('JWT_ACCESS_TOKEN_TTL');
     this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string>('JWT_REFRESH_TOKEN_TTL');
+  }
+
+  private generateTokens(id: string): IAuthTokens {
+    const payload: IJwtPayload = { id }
+
+    const accessToken: string = this.jwtService.sign(payload, {
+      secret: this.JWT_SECRET,
+      expiresIn: this.JWT_ACCESS_TOKEN_TTL as never // обойти конфликт брендированных типов ms в @nestjs/jwt
+    })
+
+    const refreshToken: string = this.jwtService.sign(payload, {
+      secret: this.JWT_SECRET,
+      expiresIn: this.JWT_REFRESH_TOKEN_TTL as never
+    })
+
+    return {
+      accessToken,
+      refreshToken
+    }
   }
 
   async register(dto: RegisterRequest): Promise<IAuthTokens> {
@@ -51,23 +71,30 @@ export class AuthService {
     }
   }
 
-  private generateTokens(id: string): IAuthTokens {
-    const payload: IJwtPayload = { id }
+  async login(dto: LoginRequest) {
+    const { email, password } = dto
 
-    const accessToken: string = this.jwtService.sign(payload, {
-      secret: this.JWT_SECRET,
-      expiresIn: this.JWT_ACCESS_TOKEN_TTL as never // обойти конфликт брендированных типов ms в @nestjs/jwt
+    const user = await this.userRepository.findOne({
+      where: {
+        email: email
+      },
+      select: {
+        id: true,
+        password: true
+      }
     })
 
-    const refreshToken: string = this.jwtService.sign(payload, {
-      secret: this.JWT_SECRET,
-      expiresIn: this.JWT_REFRESH_TOKEN_TTL as never
-    })
-
-    return {
-      accessToken,
-      refreshToken
+    if (!user) {
+      throw new NotFoundException('Не верный email или пароль')
     }
+
+    const isValidPassword = await verify(user.password, password)
+
+    if (!isValidPassword) {
+      throw new NotFoundException('Не верный email или пароль')
+    }
+
+    return this.generateTokens(user.id)
   }
 
 }
