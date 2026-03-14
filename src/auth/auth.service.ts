@@ -7,7 +7,7 @@ import { PgErrorCode } from "../common/constants/pg-error-codes";
 import { hash } from "argon2";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { JwtPayload } from "./interfaces/jwt.interface";
+import { IAuthTokens, IJwtPayload } from "./interfaces/jwt.interface";
 
 
 @Injectable()
@@ -27,8 +27,8 @@ export class AuthService {
     this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string>('JWT_REFRESH_TOKEN_TTL');
   }
 
-  async register(dto: RegisterRequest): Promise<UserEntity> {
-    const { id, name, email, password } = dto
+  async register(dto: RegisterRequest): Promise<IAuthTokens> {
+    const { name, email, password } = dto
 
     try {
       const user: UserEntity = this.userRepository.create({
@@ -39,7 +39,7 @@ export class AuthService {
 
       await this.userRepository.save(user)
 
-      return this.generateTokens(id)
+      return this.generateTokens(user.id)
 
     } catch (err) {
 
@@ -51,15 +51,17 @@ export class AuthService {
     }
   }
 
-  private generateTokens(id: string){
-    const payload: JwtPayload = { id }
+  private generateTokens(id: string): IAuthTokens {
+    const payload: IJwtPayload = { id }
 
     const accessToken: string = this.jwtService.sign(payload, {
-      expiresIn: this.JWT_ACCESS_TOKEN_TTL
+      secret: this.JWT_SECRET,
+      expiresIn: this.JWT_ACCESS_TOKEN_TTL as never // обойти конфликт брендированных типов ms в @nestjs/jwt
     })
 
     const refreshToken: string = this.jwtService.sign(payload, {
-      expiresIn: this.JWT_REFRESH_TOKEN_TTL
+      secret: this.JWT_SECRET,
+      expiresIn: this.JWT_REFRESH_TOKEN_TTL as never
     })
 
     return {
