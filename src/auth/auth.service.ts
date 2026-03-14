@@ -7,9 +7,10 @@ import { PgErrorCode } from "../common/constants/pg-error-codes";
 import { hash, verify } from "argon2";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { IAuthTokens, IJwtPayload } from "./interfaces/jwt.interface";
+import type { IAuthResponse, IAuthTokens, IJwtPayload } from "./interfaces/jwt.interface";
 import { LoginRequest } from "./dto/login.dto";
 import type { Response } from "express"
+import ms from "ms"
 import { isDev } from "../utils/is-dev.util";
 
 
@@ -47,13 +48,13 @@ export class AuthService {
     }
   }
 
-  private auth(res: Response, id: string) {
+  private auth(res: Response, id: string): IAuthResponse {
     const { accessToken, refreshToken } = this.generateTokens(id)
 
     this.setCookie(
       res,
       refreshToken,
-      new Date(60 * 60 * 24 * 7)
+      new Date(Date.now() + ms(this.JWT_REFRESH_TOKEN_TTL as never))
     )
 
     return { accessToken }
@@ -73,7 +74,7 @@ export class AuthService {
     })
   }
 
-  async register(dto: RegisterRequest): Promise<IAuthTokens> {
+  async register(res: Response, dto: RegisterRequest): Promise<IAuthResponse> {
     const { name, email, password } = dto
 
     try {
@@ -85,7 +86,7 @@ export class AuthService {
 
       await this.userRepository.save(user)
 
-      return this.generateTokens(user.id)
+      return this.auth(res, user.id)
 
     } catch (err) {
 
@@ -97,7 +98,7 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginRequest) {
+  async login(res: Response, dto: LoginRequest): Promise<IAuthResponse> {
     const { email, password } = dto
 
     const user = await this.userRepository.findOne({
@@ -120,7 +121,7 @@ export class AuthService {
       throw new NotFoundException('Не верный email или пароль')
     }
 
-    return this.generateTokens(user.id)
+    return this.auth(res, user.id)
   }
 
 }
