@@ -1,7 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from "./common/middleware/logger.middleware";
@@ -22,7 +21,6 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService],
     }),
 
-    // UsersModule,
     MovieModule,
     ReviewModule,
     ActorModule,

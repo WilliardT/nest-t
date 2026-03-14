@@ -31,7 +31,6 @@ async function bootstrap() {
   //   credentials: false // куки или сессии
   // })
 
-
   //app.setGlobalPrefix('api')
 
   setupSwagger(app);
