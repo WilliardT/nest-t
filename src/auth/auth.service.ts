@@ -9,13 +9,15 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { IAuthTokens, IJwtPayload } from "./interfaces/jwt.interface";
 import { LoginRequest } from "./dto/login.dto";
+import type { Response } from "express"
+import { isDev } from "../utils/is-dev.util";
 
 
 @Injectable()
 export class AuthService {
-  private readonly JWT_SECRET: string
   private readonly JWT_ACCESS_TOKEN_TTL: string
   private readonly JWT_REFRESH_TOKEN_TTL: string
+  private readonly COOKIE_DOMAIN: string
 
   constructor(
     @InjectRepository(UserEntity)
@@ -23,21 +25,19 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService
   ){
-    this.JWT_SECRET = configService.getOrThrow<string>('JWT_SECRET');
     this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string>('JWT_ACCESS_TOKEN_TTL');
     this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string>('JWT_REFRESH_TOKEN_TTL');
+    this.COOKIE_DOMAIN = configService.getOrThrow<string>('COOKIE_DOMAIN');
   }
 
   private generateTokens(id: string): IAuthTokens {
     const payload: IJwtPayload = { id }
 
     const accessToken: string = this.jwtService.sign(payload, {
-      secret: this.JWT_SECRET,
       expiresIn: this.JWT_ACCESS_TOKEN_TTL as never // обойти конфликт брендированных типов ms в @nestjs/jwt
     })
 
     const refreshToken: string = this.jwtService.sign(payload, {
-      secret: this.JWT_SECRET,
       expiresIn: this.JWT_REFRESH_TOKEN_TTL as never
     })
 
@@ -45,6 +45,32 @@ export class AuthService {
       accessToken,
       refreshToken
     }
+  }
+
+  private auth(res: Response, id: string) {
+    const { accessToken, refreshToken } = this.generateTokens(id)
+
+    this.setCookie(
+      res,
+      refreshToken,
+      new Date(60 * 60 * 24 * 7)
+    )
+
+    return { accessToken }
+  }
+
+  private setCookie(
+    res: Response,
+    value: string,
+    expires: Date
+  ) {
+    res.cookie('refreshToken', value, {
+      httpOnly: true,
+      domain: this.COOKIE_DOMAIN,
+      expires: expires,
+      secure: !isDev(this.configService), // http || https
+      sameSite: isDev(this.configService) ? 'none' : 'lax',
+    })
   }
 
   async register(dto: RegisterRequest): Promise<IAuthTokens> {
