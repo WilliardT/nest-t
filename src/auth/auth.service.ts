@@ -80,6 +80,20 @@ export class AuthService {
     })
   }
 
+  async validate(id: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id
+      }
+    })
+
+    if (!user) {
+      throw new NotFoundException(AUTH_NO_VALID_MESSAGE)
+    }
+
+    return user
+  }
+
   async register(res: Response, dto: RegisterRequest): Promise<IAuthResponse> {
     const { name, email, password } = dto
 
