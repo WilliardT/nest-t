@@ -5,17 +5,30 @@ import { QueryFailedError, Repository } from "typeorm";
 import { RegisterRequest } from "./dto/register.dto";
 import { PgErrorCode } from "../common/constants/pg-error-codes";
 import { hash } from "argon2";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import { JwtPayload } from "./interfaces/jwt.interface";
 
 
 @Injectable()
 export class AuthService {
+  private readonly JWT_SECRET: string
+  private readonly JWT_ACCESS_TOKEN_TTL: string
+  private readonly JWT_REFRESH_TOKEN_TTL: string
+
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ){}
+    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService
+  ){
+    this.JWT_SECRET = configService.getOrThrow<string>('JWT_SECRET');
+    this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string>('JWT_ACCESS_TOKEN_TTL');
+    this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string>('JWT_REFRESH_TOKEN_TTL');
+  }
 
   async register(dto: RegisterRequest): Promise<UserEntity> {
-    const { name, email, password } = dto
+    const { id, name, email, password } = dto
 
     try {
       const user: UserEntity = this.userRepository.create({
@@ -24,7 +37,9 @@ export class AuthService {
         password: await hash(password)
       })
 
-      return await this.userRepository.save(user)
+      await this.userRepository.save(user)
+
+      return this.generateTokens(id)
 
     } catch (err) {
 
@@ -33,6 +48,23 @@ export class AuthService {
       }
 
       throw err
+    }
+  }
+
+  private generateTokens(id: string){
+    const payload: JwtPayload = { id }
+
+    const accessToken: string = this.jwtService.sign(payload, {
+      expiresIn: this.JWT_ACCESS_TOKEN_TTL
+    })
+
+    const refreshToken: string = this.jwtService.sign(payload, {
+      expiresIn: this.JWT_REFRESH_TOKEN_TTL
+    })
+
+    return {
+      accessToken,
+      refreshToken
     }
   }
 
