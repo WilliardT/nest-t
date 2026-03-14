@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException
+} from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "./entities/user.entity";
 import { QueryFailedError, Repository } from "typeorm";
@@ -122,6 +127,33 @@ export class AuthService {
     }
 
     return this.auth(res, user.id)
+  }
+
+  async refresh(req: Request, res: Response) {
+    const refreshToken = req.cookies['refreshToken']
+
+    if (!refreshToken) {
+      throw new UnauthorizedException(' Недействительный refreshToken')
+    }
+
+    const payload: IJwtPayload = await this.jwtService.verifyAsync(refreshToken)
+
+    if (payload) {
+      const user = await this.userRepository.findOne({
+        where: {
+          id: payload.id
+        },
+        select: {
+          id: true
+        }
+      })
+
+      if (!user) {
+        throw new NotFoundException('Пользователь не найден')
+      }
+
+      return this.auth(res, user.id)
+    }
   }
 
 }
