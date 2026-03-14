@@ -17,6 +17,7 @@ import { LoginRequest } from "./dto/login.dto";
 import type { Request, Response } from "express"
 import ms from "ms"
 import { isDev } from "../utils/is-dev.util";
+import { AUTH_NO_VALID_MESSAGE } from "./constants/constants";
 
 
 @Injectable()
@@ -117,13 +118,13 @@ export class AuthService {
     })
 
     if (!user) {
-      throw new NotFoundException('Не верный email или пароль')
+      throw new NotFoundException(AUTH_NO_VALID_MESSAGE)
     }
 
     const isValidPassword = await verify(user.password, password)
 
     if (!isValidPassword) {
-      throw new NotFoundException('Не верный email или пароль')
+      throw new NotFoundException(AUTH_NO_VALID_MESSAGE)
     }
 
     return this.auth(res, user.id)
