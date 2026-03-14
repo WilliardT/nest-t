@@ -1,4 +1,14 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterRequest } from "./dto/register.dto";
 import { LoginRequest } from "./dto/login.dto";
@@ -11,6 +21,7 @@ import {
 } from "@nestjs/swagger";
 import { AuthResponse } from "./dto/auth.dto";
 import { AUTH_NO_VALID_MESSAGE } from "./constants/constants";
+import { AuthGuard } from "@nestjs/passport";
 
 
 @Controller('auth')
@@ -86,6 +97,14 @@ export class AuthController {
     @Res({ passthrough: true  }) res: Response,
   ){
     return await this.authService.logout(res)
+  }
+
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  @HttpCode(HttpStatus.OK)
+  async me(@Req() req: Request) {
+    return req.user
   }
 
 }

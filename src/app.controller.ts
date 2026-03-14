@@ -1,8 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
 import { StringToLowercasePipe } from "./common/pipes/string-to-lowercase.pipe";
-import { AuthGuard } from "./common/guards/auth.guard";
-import { UserAgentDecorator } from "./common/decorators/user-agent.decorator";
 import { ApiTags } from "@nestjs/swagger";
 
 
@@ -24,17 +22,17 @@ export class AppController {
     return `Movie: ${title}`
   }
 
-  @UseGuards(AuthGuard)
-  @Get('/me')
-  getProfile(
-    @UserAgentDecorator() userAgent: string
-  ) {
-    return [{
-      id: 1,
-      username: 'user123',
-      email: 'support@mail.ru',
-      userAgent
-    }]
-  }
+  // @UseGuards(AuthGuard)
+  // @Get('/me')
+  // getProfile(
+  //   @UserAgentDecorator() userAgent: string
+  // ) {
+  //   return [{
+  //     id: 1,
+  //     username: 'user123',
+  //     email: 'support@mail.ru',
+  //     userAgent
+  //   }]
+  // }
 
 }
