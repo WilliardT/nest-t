@@ -4,14 +4,15 @@ import { ValidationPipe } from '@nestjs/common';
 import { ResponseInterceptor } from "./common/interceptors/response.interceptor";
 import { AllExceptionFilter } from "./common/filters/all-exceptions.filter";
 import { setupSwagger } from './config/swagger.config';
+import cookieParser from "cookie-parser";
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // валидация для DTO
-  //app.useGlobalPipes(new ValidationPipe());
+  app.use(cookieParser())
 
+  // валидация для DTO
   // валидация до обращения к базе, и например id не будет тратиться на невалидные запросы.
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
