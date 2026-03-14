@@ -7,7 +7,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UseGuards
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
@@ -15,7 +14,7 @@ import { UpdateUsersDto } from "./dto/update-users.dto";
 
 
 // порядок следования важен - видимость и реакция url на выдачу
-@Controller('users')
+@Controller('users_entity')
 export class UsersController {
   // необходимо зарегистрировать сервис
   constructor(private readonly userService: UsersService) {}
