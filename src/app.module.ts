@@ -13,6 +13,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { getGraphqlConfig } from "./config/graphql.config";
 import { ApolloDriver } from "@nestjs/apollo";
 import { MovieGraphqlModule } from './movie-graphql/movie-graphql.module';
+import { TechnicalSupportChatModule } from './technical-support-chat/technical-support-chat.module';
 
 
 @Module({
@@ -37,6 +38,7 @@ import { MovieGraphqlModule } from './movie-graphql/movie-graphql.module';
     ActorModule,
     AuthModule,
     MovieGraphqlModule,
+    TechnicalSupportChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
