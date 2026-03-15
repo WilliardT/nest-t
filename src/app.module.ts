@@ -9,6 +9,10 @@ import { getTypeOrmConfig } from "./config/typeorm.config";
 import { ReviewModule } from './review/review.module';
 import { ActorModule } from './actor/actor.module';
 import { AuthModule } from './auth/auth.module';
+import { GraphQLModule } from "@nestjs/graphql";
+import { getGraphqlConfig } from "./config/graphql.config";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { MovieGraphqlModule } from './movie-graphql/movie-graphql.module';
 
 
 @Module({
@@ -21,10 +25,16 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService],
     }),
 
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      useFactory: getGraphqlConfig
+    }),
+
     MovieModule,
     ReviewModule,
     ActorModule,
     AuthModule,
+    MovieGraphqlModule,
   ],
   controllers: [AppController],
   providers: [AppService],
