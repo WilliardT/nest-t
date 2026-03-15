@@ -78,7 +78,7 @@ describe('MovieController', () => {
   })
 
   it('should update a movie', async () => {
-    const updateDto = { title: 'New Title', releaseYear: 2005 }
+    const updateDto = { title: 'New Title' }
     const result = await controller.update(movie.id, updateDto)
 
     expect(result).toEqual(true)

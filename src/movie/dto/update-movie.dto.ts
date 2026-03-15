@@ -1,14 +1,5 @@
-import { IsInt, IsNotEmpty, IsString, Max, Min } from "class-validator";
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateMovieDto } from './create-movie.dto';
 
 
-export class UpdateMovieDto {
-  @IsNotEmpty()
-  @IsString()
-  title: string;
-
-  @IsNotEmpty()
-  @IsInt()
-  @Min(1888)
-  @Max(new Date().getFullYear())
-  releaseYear: number;
-}
+export class UpdateMovieDto extends PartialType(CreateMovieDto) {}
