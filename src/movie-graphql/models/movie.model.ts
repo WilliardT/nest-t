@@ -7,5 +7,8 @@ export class MovieModel {
   id: number
 
   @Field(() => String)
+  uuid: string
+
+  @Field(() => String)
   title: string
 }
