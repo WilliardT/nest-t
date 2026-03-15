@@ -10,7 +10,7 @@ import {
   Max,
   Min
 } from "class-validator";
-import {ApiProperty, ApiPropertyOptional} from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 
 export class CreateMovieDto {
