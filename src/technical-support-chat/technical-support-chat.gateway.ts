@@ -18,7 +18,7 @@ import { SendMessageDto } from "./dto/send-message.dto";
 // - https://chrome.google.com/webstore/detail/socketio-tester/ — расширение Chrome
 // - Простая HTML-страница с socket.io-client
 
-@WebSocketGateway({
+@WebSocketGateway(3001, {
   cors: {
     origin: '*', // или конкретный адрес фронта
   }
