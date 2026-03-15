@@ -11,7 +11,7 @@ export async function getGraphqlConfig(
     driver: ApolloDriver,
     autoSchemaFile: join(process.cwd(), 'src/movie-graphql/schema.gql'),
     sortSchema: true,
-    playground: isDev(configService)
-
+    playground: isDev(configService),
+    context: ({ req, res }) => ({ req, res })
   }
 }
