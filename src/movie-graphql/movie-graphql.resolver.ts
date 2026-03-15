@@ -8,10 +8,17 @@ import { CreateMovieInput } from "./inputs/create-movie.input";
 export class MovieGraphqlResolver {
   constructor(private readonly movieGraphqlService: MovieGraphqlService) {}
 
-  @Query(() => [MovieModel])
+  @Query(
+    () => [MovieModel],
+    {
+      name: 'get_all_movies',
+      description: 'get all movies on DB'
+    }
+  )
   getMovies() {
     return this.movieGraphqlService.getAll()
   }
+
 
   @Mutation(() => MovieModel)
   createMovie(@Args('input') input: CreateMovieInput) {

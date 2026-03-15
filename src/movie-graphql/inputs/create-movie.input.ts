@@ -26,7 +26,10 @@ export class CreateMovieInput {
   @Max(new Date().getFullYear())
   releaseYear: number;
 
-  @Field(() => String, { nullable: true })
+  @Field(
+    () => String,
+    { nullable: true }
+  )
   @IsOptional()
   @IsString()
   imageUrl?: string
