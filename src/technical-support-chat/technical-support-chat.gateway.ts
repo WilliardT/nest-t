@@ -1,6 +1,14 @@
-import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway } from '@nestjs/websockets';
+import {
+  MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer
+} from '@nestjs/websockets';
 import { TechnicalSupportChatService } from './technical-support-chat.service';
-import { Socket } from "socket.io";
+import { Server, Socket } from "socket.io";
+import { SendMessageDto } from "./dto/send-message.dto";
 
 
 // https://socket.io/docs/v4/
@@ -17,6 +25,8 @@ import { Socket } from "socket.io";
 })
 
 export class TechnicalSupportChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+  @WebSocketServer() server: Server
+
   constructor(private readonly chatService: TechnicalSupportChatService) {}
 
   handleConnection(client: Socket) {
@@ -25,5 +35,15 @@ export class TechnicalSupportChatGateway implements OnGatewayConnection, OnGatew
 
   handleDisconnect(client: Socket) {
     console.log('Client disconnected')
+  }
+
+  // пока без авторизации
+  @SubscribeMessage('send')
+  async handleMessage(@MessageBody() dto: SendMessageDto ) {
+    const message = await this.chatService.sendMessage(dto)
+
+    this.server.emit('messages', message)
+
+    return message
   }
 }
