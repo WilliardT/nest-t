@@ -15,7 +15,7 @@ async function bootstrap() {
 
   app.use(cookieParser())
 
-  app.useLogger(new CustomLoggerService())
+  app.useLogger(app.get(CustomLoggerService))
 
   // валидация для DTO
   // валидация до обращения к базе, и например id не будет тратиться на невалидные запросы.

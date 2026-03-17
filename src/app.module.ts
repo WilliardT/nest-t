@@ -15,6 +15,7 @@ import { ApolloDriver } from "@nestjs/apollo";
 import { MovieGraphqlModule } from './movie-graphql/movie-graphql.module';
 import { TechnicalSupportChatModule } from './technical-support-chat/technical-support-chat.module';
 import { PostsModule } from './posts/posts.module';
+import { CustomLoggerService } from "./common/logger/logger.service";
 
 
 @Module({
@@ -43,7 +44,10 @@ import { PostsModule } from './posts/posts.module';
     PostsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    CustomLoggerService
+  ],
 })
 
 export class AppModule implements NestModule {
