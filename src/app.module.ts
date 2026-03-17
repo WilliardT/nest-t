@@ -3,18 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from "./common/middleware/logger.middleware";
-import { MovieModule } from './movie/movie.module';
-import { ReviewModule } from './review/review.module';
-import { ActorModule } from './actor/actor.module';
-import { AuthModule } from './auth/auth.module';
 import { GraphQLModule } from "@nestjs/graphql";
 import { getGraphqlConfig } from "./config/graphql.config";
 import { ApolloDriver } from "@nestjs/apollo";
-import { MovieGraphqlModule } from './movie-graphql/movie-graphql.module';
-import { TechnicalSupportChatModule } from './technical-support-chat/technical-support-chat.module';
-import { PostsModule } from './posts/posts.module';
 import { CustomLoggerService } from "./common/logger/logger.service";
 import { DatabaseModule } from "./infra/database/database.module";
+import { ApiModule } from "./api/api.module";
 
 
 @Module({
@@ -30,13 +24,7 @@ import { DatabaseModule } from "./infra/database/database.module";
       inject: [ConfigService]
     }),
 
-    MovieModule,
-    ReviewModule,
-    ActorModule,
-    AuthModule,
-    MovieGraphqlModule,
-    TechnicalSupportChatModule,
-    PostsModule,
+    ApiModule
   ],
   controllers: [AppController],
   providers: [

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PostsService } from "./posts/posts.service";
-import { IPostsResponse } from "./posts/interfaces/posts.interface";
+import { PostsService } from "./api/posts/posts.service";
+import { IPostsResponse } from "./api/posts/interfaces/posts.interface";
 
 
 @Injectable()

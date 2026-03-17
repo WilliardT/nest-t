@@ -4,7 +4,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ResponseInterceptor } from "./common/interceptors/response.interceptor";
 import { AllExceptionFilter } from "./common/filters/all-exceptions.filter";
 import cookieParser from "cookie-parser";
-import { setupSwagger } from "./utils/swagger.util";
+import { setupSwagger } from "./common/utils/swagger.util";
 import { CustomLoggerService } from "./common/logger/logger.service";
 
 

@@ -8,7 +8,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "./entities/user.entity";
 import { QueryFailedError, Repository } from "typeorm";
 import { RegisterRequest } from "./dto/register.dto";
-import { PgErrorCode } from "../common/constants/pg-error-codes";
+import { PgErrorCode } from "../../common/constants/pg-error-codes";
 import { hash, verify } from "argon2";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
@@ -16,7 +16,7 @@ import type { IAuthResponse, IAuthTokens, IJwtPayload } from "./interfaces/jwt.i
 import { LoginRequest } from "./dto/login.dto";
 import type { Request, Response } from "express"
 import ms from "ms"
-import { isDev } from "../utils/is-dev.util";
+import { isDev } from "../../common/utils/is-dev.util";
 import { AUTH_NO_VALID_MESSAGE } from "./constants/constants";
 
 
