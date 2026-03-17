@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ResponseInterceptor } from "./common/interceptors/response.interceptor";
 import { AllExceptionFilter } from "./common/filters/all-exceptions.filter";
 import cookieParser from "cookie-parser";
@@ -31,6 +31,11 @@ async function bootstrap() {
   //   allowedHeaders: ['Content-Type', 'Authorization'],
   //   credentials: false // куки или сессии
   // })
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1'
+  })
 
   //app.setGlobalPrefix('api')
 
