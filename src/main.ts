@@ -37,12 +37,12 @@ async function bootstrap() {
   //   credentials: false // куки или сессии
   // })
 
+  app.setGlobalPrefix('api')
+
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1'
   })
-
-  //app.setGlobalPrefix('api')
 
   setupSwagger(app);
 
