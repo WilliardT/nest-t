@@ -5,12 +5,17 @@ import { ResponseInterceptor } from "./common/interceptors/response.interceptor"
 import { AllExceptionFilter } from "./common/filters/all-exceptions.filter";
 import cookieParser from "cookie-parser";
 import { setupSwagger } from "./utils/swagger.util";
+import { CustomLoggerService } from "./common/logger/logger.service";
 
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true
+  });
 
   app.use(cookieParser())
+
+  app.useLogger(new CustomLoggerService())
 
   // валидация для DTO
   // валидация до обращения к базе, и например id не будет тратиться на невалидные запросы.
