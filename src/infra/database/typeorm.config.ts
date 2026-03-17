@@ -17,4 +17,3 @@ export async function getTypeOrmConfig(
     synchronize: true, // для разработки
   }
 }
-
